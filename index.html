@@ -9,29 +9,45 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="operation.js"></script>
+    <script src="transaction.js"></script>
     <script src="2pl.js"></script>
     <title>Two Phase Locking Scheduler</title>
-
-    <style>
-      .T1 {
-        color: green;
-      }
-
-      .T2 {
-        color: red;
-      }
-
-      .divStartButton {
-        padding-top: 30px;
-        padding-bottom: 30px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
 
   <body>
     <div class="alert alert-info" role="alert" align="center">
       <strong>2PL Scheduler: </strong>Pressione "Escalonar" para iniciar o escalonamento 2PL!
     </div>
+
+
+    <!-- HIDDEN BY DEFAULT -->
+    <!-- ADD -->
+    <div id="create" class="well text-center well-hidden well-edit">
+      <span id="new-t-name">T1</span>
+      <span id="new-t-operations"></span>
+      <br /><br />
+      <span><select id="new-t-type" name="type">
+        <option value="r">Read</option>
+        <option value="w">Write</option>
+      </select></span>
+      <span><input id="new-t-data" name="data" maxlength="1" /></span>
+      <span><button type="button" class="btn btn-success" onclick="addOperation()">+</button></span>
+      <br /><br />
+      <span>
+        <button type="button" class="btn btn-primary" onclick="addTransaction()">Adicionar</button>
+        <button type="button" class="btn btn-secondary" onclick="cancel()">Cancelar</button>
+      </span>
+    </div>
+    <!-- REMOVE -->
+    <div id="remove" class="well text-center well-hidden well-edit">
+      <span><select id="new-t-type" name="type">
+        <option value="r">Read</option>
+        <option value="w">Write</option>
+      </select></span>
+    </div>
+    <!-- NOT HIDDEN -->
 
     <div class="card" align="center">
       <div class="card-block">
@@ -64,6 +80,8 @@
             </div>
           </div>
         </div>
+        <button type="button" class="btn btn-success small" onclick="$('#create').removeClass('well-hidden')">+</button>
+        <button type="button" class="btn btn-danger small" onclick="$('#remove').removeClass('well-hidden')">−</button>
       </div>
     </div>
 
@@ -83,5 +101,7 @@
         </div>
       </div>
     </div>
+
+
   </body>
 </html>
