@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Two Phase Locking Scheduler">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="2pl.js"></script>
+    <title>Two Phase Locking Scheduler</title>
+
+    <style>
+      .T1 {
+        color: green;
+      }
+
+      .T2 {
+        color: red;
+      }
+
+      .divStartButton {
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="alert alert-info" role="alert" align="center">
+      <strong>2PL Scheduler: </strong>Pressione "Escalonar" para iniciar o escalonamento 2PL!
+    </div>
+
+    <div class="card" align="center">
+      <div class="card-block">
+        <h4 class="card-title">Lista de Transações</h4>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <strong>Transação</strong>
+            </div>
+            <div class="col">
+              <strong>Operações</strong>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <span class="T1">T1</span>
+            </div>
+            <div class="col">
+              <span class="T1">r(Y) w(Y) w(Z)</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <span class="T2">T2</span>
+            </div>
+            <div class="col">
+              <span class="T2">r(X) r(Y) w(Y) r(Z) w(Z)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div align="center" class="divStartButton">
+      <button type="button" class="btn btn-primary" onclick="schedule()">Escalonar</button>
+      <button type="button" class="btn btn-secondary" onclick="clearList()">Resetar</button>
+    </div>
+
+    <div class="card" align="center">
+      <div class="card-block">
+        <h4 class="card-title">Operações Escalonadas</h4>
+        <div class="container"><br>
+          <table id="dTable">
+            <tbody id="data">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
