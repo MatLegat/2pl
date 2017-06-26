@@ -57,7 +57,6 @@ div.well {
   display: block;
   opacity: 1;
   width: 90%;
-  min-width: 30em;
   margin: 0 auto 2em auto;
   background-color: #fff !important;
   overflow: hidden !important;
