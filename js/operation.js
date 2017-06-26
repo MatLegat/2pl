@@ -1,11 +1,11 @@
 class Operation {
-  constructor(type, data) {
+  constructor(type, data, tId = '') {
     this.type = type
     this.data = data
-    // this.done = false
+    this.tId = tId
   }
 
-  string(tId = '') {
-    return this.type + tId + '(' + this.data + ') '
+  get string() {
+    return this.type + this.tId + '(' + this.data + ') '
   }
 }

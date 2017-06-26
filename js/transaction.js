@@ -7,11 +7,7 @@ class Transaction {
   }
 
   addOperation(operation, index = null) {
-    if (index == null) {
-      this.operations2PL.push(operation)
-    } else {
-      this.operations2PL.splice(index, 0, operation)
-    }
+    operation.tId = this.id
     if (operation.type == 'r' || operation.type == 'w') {
       if (index == null) {
         this.operations.push(operation)
@@ -19,6 +15,12 @@ class Transaction {
         this.operations.splice(index, 0, operation)
       }
       this.updateLocks()
+    } else {
+      if (index == null) {
+        this.operations2PL.push(operation)
+      } else {
+        this.operations2PL.splice(index, 0, operation)
+      }
     }
   }
 
@@ -98,7 +100,7 @@ class Transaction {
   toString(list) {
     let string = ""
     list.forEach((op) => {
-      string += op.string(this.id)
+      string += op.string
     })
     return string
   }
