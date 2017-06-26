@@ -1,8 +1,6 @@
 let transactions = []
 let count = 1
-let newTransaction = new Transaction(count, [new Operation('r', 'A'), new Operation('r', 'B'), new Operation('w', 'B')])
-newTransaction.updateLocks()
-console.log(newTransaction);
+let newTransaction = new Transaction(count)
 
 function schedule() {
   clearList();
@@ -19,6 +17,8 @@ function cancel() {
   if (!newTransaction.empty) {
     newTransaction = new Transaction(count)
     $('#new-t-operations').text('')
+    $('#new-t-operations-2pl').text('')
+    $('.new-t-name').text('T' + count)
   }
 }
 
@@ -26,22 +26,54 @@ function addOperation() {
   let type = $('#new-t-type').val()
   let data = $('#new-t-data').val()
 
-  newTransaction.addOperation(new Operation(type, data))
-  $('#new-t-operations').text(newTransaction.string)
+  if (data != '') {
+    newTransaction.addOperation(new Operation(type, data))
+    $('#new-t-operations').text(newTransaction.string)
+    $('#new-t-operations-2pl').text(newTransaction.string2PL)
+    $('#new-t-data').val('')
+  }
+}
+
+function updateList() {
+  let listHtml = ''
+  let removeHtml = ''
+  transactions.forEach((t) => {
+    listHtml += '<div class="row">'
+    listHtml += '  <div class="col">'
+    listHtml += '    <span class="T' + t.id + '">T' + t.id + '</span>'
+    listHtml += '  </div>'
+    listHtml += '  <div class="col">'
+    listHtml += '    <span class="T' + t.id + '">' + t.string2PL + '</span>'
+    listHtml += '  </div>'
+    listHtml += '</div>'
+
+    removeHtml += '<option value="' + t.id + '">T' + t.id + '</option>'
+  })
+  $('#t-list').html(listHtml)
+  $('#remove-t-id').html(removeHtml)
+}
+
+function clearList() {
+  $("#dTable > tbody:last").children().remove();
 }
 
 function addTransaction() {
   if (!newTransaction.empty) {
     transactions.push(newTransaction)
-    console.log(transactions)
     count++
+    updateList()
     cancel()
   }
-  updateTransactions()
 }
 
-function clearList() {
-  $("#dTable > tbody:last").children().remove();
+function removeTransaction() {
+  let id = $('#remove-t-id').val()
+
+  if (id != null && id != '') {
+    transactions = transactions.filter((t) => t.id != id)
+    updateList()
+    cancel()
+  }
 }
 
 function executeOperation(operation) {

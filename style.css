@@ -12,7 +12,7 @@
 }
 
 .small {
-  font-size: 8pt;
+  font-size: 10pt;
   padding: 3px !important;
   opacity: 0.9;
 }
@@ -35,14 +35,13 @@ div.well-hidden {
 }
 
 div.well {
-  border-radius: 3px;
+  border-radius: 4px;
   border: 1px solid #888;
-  padding: 1em;
+  padding: 2em;
   display: block;
   opacity: 1;
   width: 90%;
-  min-width: 20em;
-  max-width: 90vh;
+  min-width: 30em;
   margin: 0 auto 2em auto;
   background-color: #fff !important;
   overflow: hidden !important;
@@ -55,6 +54,24 @@ div.well {
     border 150ms linear;
 }
 
+select.form-control {
+  width: 5.5em !important;
+  display: inline !important;
+}
+
+input.form-control {
+  width: 3em !important;
+  display: inline !important;
+}
+
+.form-control {
+  vertical-align: middle !important;
+}
+
+div.row {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
 
 span input {
   width: 3em;

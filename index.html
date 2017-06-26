@@ -25,27 +25,40 @@
     <!-- HIDDEN BY DEFAULT -->
     <!-- ADD -->
     <div id="create" class="well text-center well-hidden well-edit">
-      <span id="new-t-name">T1</span>
-      <span id="new-t-operations"></span>
+      <span class="new-t-name">T1</span>
+      <br />
+      <span>Transação: </span>
+      <span id="new-t-operations">
+        <!-- UPDATED BY addOperation() -->
+      </span>
+      <br />
+      <span>Operações 2PL: </span>
+      <span id="new-t-operations-2pl">
+        <!-- UPDATED BY addOperation() -->
+      </span>
       <br /><br />
-      <span><select id="new-t-type" name="type">
+      <span><select id="new-t-type" name="type" class="form-control">
         <option value="r">Read</option>
         <option value="w">Write</option>
       </select></span>
-      <span><input id="new-t-data" name="data" maxlength="1" /></span>
-      <span><button type="button" class="btn btn-success" onclick="addOperation()">+</button></span>
+      <span><input id="new-t-data" name="data" maxlength="1" class="form-control" /></span>
+      <span><button type="button" class="btn btn-success" onclick="addOperation()" title="Adicionar Operação">+</button></span>
       <br /><br />
       <span>
-        <button type="button" class="btn btn-primary" onclick="addTransaction()">Adicionar</button>
+        <button type="button" class="btn btn-primary" onclick="addTransaction()">Adicionar <span class="new-t-name">T1</span></button>
         <button type="button" class="btn btn-secondary" onclick="cancel()">Cancelar</button>
       </span>
     </div>
     <!-- REMOVE -->
     <div id="remove" class="well text-center well-hidden well-edit">
-      <span><select id="new-t-type" name="type">
-        <option value="r">Read</option>
-        <option value="w">Write</option>
+      <span><select id="remove-t-id" name="remove-select" class="form-control">
+        <!-- UPDATED BY updateList() -->
       </select></span>
+      <br /><br />
+      <span>
+        <button type="button" class="btn btn-danger" onclick="removeTransaction()">Remover</button>
+        <button type="button" class="btn btn-secondary" onclick="cancel()">Cancelar</button>
+      </span>
     </div>
     <!-- NOT HIDDEN -->
 
@@ -58,30 +71,18 @@
               <strong>Transação</strong>
             </div>
             <div class="col">
-              <strong>Operações</strong>
+              <strong>Operações 2PL</strong>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col">
-              <span class="T1">T1</span>
-            </div>
-            <div class="col">
-              <span class="T1">r(Y) w(Y) w(Z)</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <span class="T2">T2</span>
-            </div>
-            <div class="col">
-              <span class="T2">r(X) r(Y) w(Y) r(Z) w(Z)</span>
-            </div>
+          <div id="t-list">
+            <!-- UPDATED BY updateList() -->
           </div>
         </div>
-        <button type="button" class="btn btn-success small" onclick="$('#create').removeClass('well-hidden')">+</button>
-        <button type="button" class="btn btn-danger small" onclick="$('#remove').removeClass('well-hidden')">−</button>
+        <button type="button" class="btn btn-success small" title="Adicionar Transação"
+         onclick="$('#create').removeClass('well-hidden')">+</button>
+        <button type="button" class="btn btn-danger small" title="Remover Transação"
+         onclick="$('#remove').removeClass('well-hidden')">−</button>
       </div>
     </div>
 
