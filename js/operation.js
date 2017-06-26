@@ -6,6 +6,9 @@ class Operation {
   }
 
   get string() {
+    if (this.type == 'd') {
+      return 'DEADLOCK!'
+    }
     return this.type + this.tId + '(' + this.data + ') '
   }
 }

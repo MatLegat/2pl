@@ -1,14 +1,25 @@
 let transactions = []
 let count = 1
 let newTransaction = new Transaction(count)
+let locks = new LockController()
+
+function getRandom(arr) {
+  return arr[Math.floor((Math.random()*arr.length))]
+}
 
 function schedule() {
-  clearList();
+  reset();
 
-  executeOperation("r1(Y)");
-  executeOperation("r2(X)");
-  executeOperation("w1(Y)");
-  executeOperation("w1(Z)");
+  let runningTransactions = transactions.filter((t) => t.state == 'running')
+  while (runningTransactions.length > 0) {
+    const t = getRandom(runningTransactions)
+    executeOperation(t.executeOp2PL(locks))
+    runningTransactions = transactions.filter((t) => t.state == 'running')
+  }
+  if (transactions.filter((t) => t.state == 'waiting').length > 0) {
+    // deadlock:
+    executeOperation(new Operation('d'))
+  }
 }
 
 function cancel() {
@@ -43,7 +54,7 @@ function updateList() {
     listHtml += '    <span class="T' + t.id + '">T' + t.id + '</span>'
     listHtml += '  </div>'
     listHtml += '  <div class="col">'
-    listHtml += '    <span class="T' + t.id + '">' + t.string2PL + '</span>'
+    listHtml += '    <span class="T' + t.id + '">' + t.html2PL + '</span>'
     listHtml += '  </div>'
     listHtml += '</div>'
 
@@ -53,7 +64,12 @@ function updateList() {
   $('#remove-t-id').html(removeHtml)
 }
 
-function clearList() {
+function reset() {
+  locks = new LockController()
+  transactions.forEach((t) => {
+    t.reset()
+  })
+  // clear list:
   $("#dTable > tbody:last").children().remove();
 }
 
@@ -77,7 +93,11 @@ function removeTransaction() {
 }
 
 function executeOperation(operation) {
+  let classes = "op T" + operation.tId
+  if (operation.type == 'r' || operation.type == 'w' || operation.type == 'd') {
+    classes += ' font-weight-bold'
+  }
   $("#data").append("<tr>");
-  $("#data").append("<td>" + operation + "</td>");
+  $("#data").append('<td class="' + classes + '">' + operation.string + "</td>");
   $("#data").append("</tr>");
 }

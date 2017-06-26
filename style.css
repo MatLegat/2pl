@@ -6,6 +6,22 @@
   color: red;
 }
 
+.T3 {
+  color: blue;
+}
+
+.T4 {
+  color: orange;
+}
+
+.T5 {
+  color: purple;
+}
+
+.T6 {
+  color: magenta;
+}
+
 .divStartButton {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -75,5 +91,9 @@ div.row {
 
 span input {
   width: 3em;
+  text-align: center;
+}
+
+td.op {
   text-align: center;
 }

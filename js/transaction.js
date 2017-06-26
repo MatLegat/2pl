@@ -4,6 +4,29 @@ class Transaction {
     this.operations = operations
     this.operations2PL = []
     this.updateLocks()
+    this.reset()
+  }
+
+  reset() {
+    this.state = 'running'
+    this.step = 0
+  }
+
+  executeOp2PL(lockController) {
+    if (this.state == 'running') {
+      const op = this.operations2PL[this.step++]
+      if (op.type == 'ls' || op.type == 'lx') {
+        lockController.lock(this, op.data, op.type)
+      } else if (op.type == 'u') {
+        lockController.unlock(this, op.data)
+      }
+      if (this.step >= this.operations2PL.length) {
+        this.state = 'finished'
+      }
+      return op
+    } else {
+      throw 'Tried to execute blocked transaction'
+    }
   }
 
   addOperation(operation, index = null) {
@@ -97,10 +120,16 @@ class Transaction {
 
   }
 
-  toString(list) {
+  toString(list, html = false) {
     let string = ""
     list.forEach((op) => {
-      string += op.string
+      if (html && (op.type == 'r' || op.type == 'w')) {
+        string += '<span class="font-weight-bold">'
+        string += op.string
+        string += '</span>'
+      } else {
+        string += op.string
+      }
     })
     return string
   }
@@ -111,6 +140,10 @@ class Transaction {
 
   get string2PL() {
     return this.toString(this.operations2PL)
+  }
+
+  get html2PL() {
+    return this.toString(this.operations2PL, true)
   }
 
   get empty() {
